@@ -18,6 +18,8 @@ def machineid():
     assert( 1 == i and len(ret) == 32)
     return ret
 
+    return quick_md5("1024").lower()
+
 
 def ali_data_dir():
     return os.path.expandvars("%appdata%\\aliwangwangData\\MessageSDK\\libaim")
