@@ -2,6 +2,7 @@
 
 
 import os, hashlib
+from pathlib import Path
 
 
 def quick_md5(value: str):
@@ -11,22 +12,29 @@ def quick_md5(value: str):
 # HKEY_CURRENT_USER\SOFTWARE\Alibaba\AliWangWang\machineid
 def machineid():
     import winreg
-    with winreg.OpenKey( \
-        winreg.HKEY_CURRENT_USER, r"SOFTWARE\Alibaba\AliWangWang"
-    ) as regkey:
-        ret, i = winreg.QueryValueEx(regkey, "machineid")
-    assert( 1 == i and len(ret) == 32)
-    return ret
-
+    try:
+        with winreg.OpenKey( \
+            winreg.HKEY_CURRENT_USER, r"SOFTWARE\Alibaba\AliWangWang"
+        ) as regkey:
+            ret, i = winreg.QueryValueEx(regkey, "machineid")
+        assert( 1 == i and len(ret) == 32)
+        return ret
+    except (OSError, AssertionError):
+        pass
     return quick_md5("1024").lower()
 
 
-def ali_data_dir():
-    return os.path.expandvars("%appdata%\\aliwangwangData\\MessageSDK\\libaim")
+def aliwangwang_data_dir():
+    TargetDir = Path(os.path.expandvars("%appdata%\\aliwangwangData"))
+    return TargetDir / "MessageSDK" / "libaim"
+
+def aliworkbench_data_dir():
+    TargetDir = Path(os.path.expandvars(r"D:\AliWorkbenchData\IMServiceDir"))
+    return TargetDir / "MessageSDK" / "libaim"
 
 
 def generate_db_key(uid=''):
-    uid_dir = ali_data_dir()
+    uid_dir = aliwangwang_data_dir()
 
     if (not uid): # take the first one
         uid = list(filter(lambda n: str(n).endswith("@cntaobao"), os.listdir(uid_dir)))[0]
