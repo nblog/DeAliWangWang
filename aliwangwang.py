@@ -50,7 +50,7 @@ def main():
     dbkey = generate_db_key()
 
     ''' go decrypt (first page)'''
-    url = r"https://gchq.github.io/CyberChef/#recipe=Take_bytes(0,4096,false)AES_Decrypt(%7B'option':'Latin1','string':'{}'%7D,%7B'option':'Hex','string':''%7D,'ECB','Raw','Raw',%7B'option':'Hex','string':''%7D,%7B'option':'Hex','string':''%7D)".format(
+    url = r"https://gchq.github.io/CyberChef/#recipe=Take_bytes(0,4096,false)AES_Decrypt(%7B'option':'Latin1','string':'{}'%7D,%7B'option':'Hex','string':''%7D,null,'ECB','Raw','Raw',%7B'option':'Hex','string':''%7D,%7B'option':'Hex','string':''%7D,'Off')".format(
         dbkey)
     
     os.system("echo go decrypt&& echo \"{}\" && pause".format(url))
